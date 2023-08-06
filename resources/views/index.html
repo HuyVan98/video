@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Short Video Viewer</title>
+        <link rel="stylesheet" href="index.css" />
+        <!-- Include Swiper CSS -->
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/swiper/swiper-bundle.min.css"
+        />
+        
+    </head>
+    <body>
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <video
+                        class="video-item video-item1"
+                        autoplay
+                        muted
+                        src="movie3.mp4"
+                    ></video>
+                    <div class="video-controls">
+                        <div class="custom-button play-button1">▶</div>
+                        <div class="custom-button pause-button1">⏸</div>
+                        <div
+                            id="sound-button"
+                            class="custom-button volume-button1"
+                        >
+                            🔊
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <video
+                        class="video-item"
+                        autoplay
+                        muted
+                        src="movie4.mp4"
+                    ></video>
+                </div>
+                <!-- Add more video items as needed -->
+            </div>
+        </div>
+
+        <!-- Include Swiper JS -->
+        <!-- Include Swiper JS -->
+        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+        <script>
+            // JavaScript code for handling swipe gestures with Swiper.js
+            const swiper = new Swiper(".swiper-container", {
+                direction: "vertical", // Set the direction to 'vertical' for vertical layout
+                grabCursor: true,
+                loop: false,
+                autoplay: {
+                    delay: 5000, // Độ trễ giữa các slide (ms)
+                },
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                on: {
+                    init: function () {
+                        // Mở tiếng và tự động phát video khi trình duyệt đã tải và hiển thị slide video đầu tiên
+                        const currentSlide = this.slides[this.activeIndex];
+                        const videoElement =
+                            currentSlide.querySelector("video");
+                        if (videoElement) {
+                            videoElement.muted = false;
+                            videoElement.play().catch((error) => {
+                                // Xử lý lỗi nếu tự động phát bị chặn bởi trình duyệt
+                                console.log(error);
+                            });
+                        }
+                    },
+                    slideChangeTransitionStart: function () {
+                        // Mute tất cả video khi chuyển đổi slide
+                        this.slides.forEach((slide) => {
+                            const videoElement = slide.querySelector("video");
+                            if (videoElement) {
+                                videoElement.muted = true;
+                            }
+                        });
+
+                        // Mở tiếng và tự động phát video khi chuyển đến slide mới
+                        const currentSlide = this.slides[this.activeIndex];
+                        const videoElement =
+                            currentSlide.querySelector("video");
+                        if (videoElement) {
+                            videoElement.muted = false;
+                            videoElement.play().catch((error) => {
+                                // Xử lý lỗi nếu tự động phát bị chặn bởi trình duyệt
+                                console.log(error);
+                            });
+                        }
+                    },
+                },
+            });
+
+             // JavaScript code to unmute the video when it's ready to play
+            const videoItems = document.getElementsByClassName("video-item1");
+
+            for (let i = 0; i < videoItems.length; i++) {
+                videoItems[i].addEventListener("loadedmetadata", function () {
+                    this.muted = false;
+                });
+            }
+
+            // JavaScript code to control the sound on/off
+            const soundButton = document.getElementById("sound-button");
+            let isMuted = true;
+
+            soundButton.addEventListener("click", function () {
+                for (let i = 0; i < videoItems.length; i++) {
+                    videoItems[i].muted = isMuted;
+                }
+                isMuted = !isMuted;
+            });
+
+            // Custom control buttons
+            const playButtons = document.getElementsByClassName("play-button1");
+            const pauseButtons =
+                document.getElementsByClassName("pause-button1");
+            const volumeButtons =
+                document.getElementsByClassName("volume-button1");
+
+            for (let i = 0; i < playButtons.length; i++) {
+                playButtons[i].addEventListener("click", function () {
+                    videoItems[i].play();
+                });
+            }
+
+            for (let i = 0; i < pauseButtons.length; i++) {
+                pauseButtons[i].addEventListener("click", function () {
+                    videoItems[i].pause();
+                });
+            }
+
+            for (let i = 0; i < volumeButtons.length; i++) {
+                volumeButtons[i].addEventListener("click", function () {
+                    videoItems[i].muted = !videoItems[i].muted;
+                });
+            }
+
+
+            // JavaScript code to auto scroll to the next slide when a video ends
+
+            for (let i = 0; i < videoItems.length; i++) {
+                videoItems[i].addEventListener("ended", function () {
+                    if (swiper.activeIndex !== swiper.slides.length - 1) {
+                        swiper.slideNext();
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>
