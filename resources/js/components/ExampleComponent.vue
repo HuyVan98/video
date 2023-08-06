@@ -14,6 +14,7 @@
             muted
             :src="movie.title"
             @ended="videoEnded(index + 1)"
+            @timeupdate="updateTime(index + 1)"
           ></video>
           <div class="video-controls">
             <div class="custom-button play-button1" @click="pause(index + 1)">
@@ -27,10 +28,13 @@
               🔊
             </div>
           </div>
+          
+    <div class="video-time">{{ formattedTime }}</div>
         </div>
         <!-- Add more video items as needed -->
       </div>
     </div>
+    
   </div>
 </template>
 
@@ -41,6 +45,8 @@ export default {
   data() {
     return {
       videoActive: false,
+      currentTime: 0,
+      formattedTime: "00:00",
       listMovies: [
         {
           id: "1",
@@ -124,12 +130,6 @@ export default {
         // Kiểm tra nếu video xuất hiện trong khung nhìn đủ lớn (đạt ngưỡng threshold)
         if (entry.isIntersecting) {
           console.log("up");
-          // Bật âm thanh và phát video
-          //   videoElement.muted = false;
-          //   videoElement.play().catch((error) => {
-          // Xử lý lỗi nếu tự động phát bị chặn bởi trình duyệt
-          // console.log(error);
-          //   });
         } else {
           // Dừng video nếu video ra khỏi khung nhìn
           console.log("down");
@@ -146,6 +146,25 @@ export default {
   },
 
   methods: {
+    updateTime(index) {
+      // Cập nhật thời gian hiện tại của video
+      const videoItem = document.querySelector(`#video-${index}`);
+      if (videoItem) {
+        this.currentTime = videoItem.currentTime;
+        this.formattedTime = this.formatTime(this.currentTime);
+      }
+    },
+    formatTime(time) {
+      // Hàm định dạng thời gian từ giây sang định dạng mm:ss
+      const minutes = Math.floor(time / 60);
+      const seconds = Math.floor(time % 60);
+      return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    },
+    isVideoPlaying(index) {
+      // Kiểm tra xem video có đang chạy hay không dựa vào trạng thái của video
+      const videoItem = document.querySelector(`#video-${index}`);
+      return videoItem ? !videoItem.paused : false;
+    },
     isVideoPlaying(index) {
       // Kiểm tra xem video có đang chạy hay không dựa vào trạng thái của video
       const videoItem = document.querySelector(`#video-${index}`);
@@ -188,6 +207,16 @@ export default {
 </script>
 
 <style>
+.video-time {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
 .box {
     display: flex;
   justify-content: center; /* căn giữa theo chiều ngang */
