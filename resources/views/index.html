@@ -10,41 +10,74 @@
             rel="stylesheet"
             href="https://unpkg.com/swiper/swiper-bundle.min.css"
         />
-        
     </head>
     <body>
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <video
-                        class="video-item video-item1"
-                        autoplay
-                        muted
-                        src="movie3.mp4"
-                    ></video>
-                    <div class="video-controls">
-                        <div class="custom-button play-button1">▶</div>
-                        <div class="custom-button pause-button1">⏸</div>
-                        <div
-                            id="sound-button"
-                            class="custom-button volume-button1"
-                        >
-                            🔊
+        <div class="top">
+            <div class="left">
+                <span class="content">Đăng ký</span>
+            </div>
+            <div class="right">
+                <div class="right-content">
+                    <span class="content"><b>Dành cho bạn</b></span>
+                </div>
+                <div class="notification-icon">
+                    <span class="">🔔</span>
+                </div>
+            </div>
+        </div>
+        <div class="box">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div id="swiper-slide-custom" class="swiper-slide">
+                        <video
+                            class="video-item video-item1"
+                            autoplay
+                            muted
+                            src="movie5.mp4"
+                        ></video>
+                        <div class="video-controls">
+                            <div class="custom-button play-button1">▶</div>
+                            <div class="custom-button pause-button1">⏸</div>
+                            <div
+                                id="sound-button"
+                                class="custom-button volume-button1"
+                            >
+                                🔊
+                            </div>
                         </div>
                     </div>
+                    <div id="swiper-slide-custom" class="swiper-slide">
+                        <video
+                            class="video-item"
+                            autoplay
+                            muted
+                            src="movie6.mp4"
+                        ></video>
+                        
+                    </div>
+                    <!-- Add more video items as needed -->
                 </div>
-                <div class="swiper-slide">
-                    <video
-                        class="video-item"
-                        autoplay
-                        muted
-                        src="movie4.mp4"
-                    ></video>
-                </div>
-                <!-- Add more video items as needed -->
             </div>
         </div>
 
+        <div class="footer">
+            <div class="a">
+                <span class="icon">🎞</span>
+                <span>Phim mới</span>
+            </div>
+            <div class="b">
+                <span class="icon">🔍</span>
+                <span>Tìm kiếm</span>
+            </div>
+            <div class="c">
+                <span class="icon">👨‍❤️‍💋‍👨</span>
+                <span>Kết bạn</span>
+            </div>
+            <div class="d">
+                <span class="icon">👩</span>
+                <span>Cá nhân</span>
+            </div>
+        </div>
         <!-- Include Swiper JS -->
         <!-- Include Swiper JS -->
         <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
@@ -100,7 +133,7 @@
                 },
             });
 
-             // JavaScript code to unmute the video when it's ready to play
+            // JavaScript code to unmute the video when it's ready to play
             const videoItems = document.getElementsByClassName("video-item1");
 
             for (let i = 0; i < videoItems.length; i++) {
@@ -144,7 +177,6 @@
                     videoItems[i].muted = !videoItems[i].muted;
                 });
             }
-
 
             // JavaScript code to auto scroll to the next slide when a video ends
 
